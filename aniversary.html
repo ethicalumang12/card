@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25th Wedding Anniversary Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lora', serif; background: linear-gradient(135deg, #f5f5f0, #d4af37); overflow: hidden; color: #333; }
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: opacity 1s; }
+        .hidden { opacity: 0; pointer-events: none; }
+
+        /* Welcome Screen */
+        #welcome { background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, rgba(255,255,255,0.9) 100%); }
+        #welcome .content { text-align: center; max-width: 500px; }
+        #welcome h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: #d4af37; text-shadow: 0 0 10px rgba(212,175,55,0.5); }
+        #welcome p { font-family: 'Great+Vibes', cursive; font-size: 1.5rem; color: #f8e8e8; margin-bottom: 2rem; }
+        #name-input { border: 2px solid #d4af37; border-radius: 5px; padding: 10px; font-size: 1rem; width: 100%; margin-bottom: 1rem; background: rgba(255,255,255,0.8); }
+        #continue-btn { background: #d4af37; color: white; border: none; padding: 12px 24px; border-radius: 5px; font-size: 1rem; cursor: pointer; transition: box-shadow 0.3s; }
+        #continue-btn:hover { box-shadow: 0 0 20px rgba(212,175,55,0.8); }
+
+        /* Shimmer Particles */
+        .shimmer { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+        .particle { position: absolute; width: 2px; height: 2px; background: #d4af37; border-radius: 50%; animation: float 10s infinite linear; }
+        @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
+
+        /* Closed Card Screen */
+        #closed-card { background: url('https://via.placeholder.com/1920x1080/f5f5f0?text=Satin+Fabric') no-repeat center/cover; }
+        .card-container { perspective: 1000px; }
+        .card { width: 400px; height: 250px; position: relative; transform-style: preserve-3d; transition: transform 0.5s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #f5f5f0; border: 2px solid #d4af37; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; color: #d4af37; text-align: center; }
+        .card-front::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://via.placeholder.com/400x250?text=Paper+Grain') no-repeat center/cover; opacity: 0.1; }
+        .card-front h2 { font-size: 2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .card-front p { font-family: 'Great+Vibes', cursive; font-size: 1.5rem; margin-top: 10px; }
+        .card-front .border { position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border: 1px solid #d4af37; border-radius: 5px; }
+        #open-btn { margin-top: 20px; background: #d4af37; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* Opened Card Screen */
+        #opened-card { background: url('https://via.placeholder.com/1920x1080/f5f5f0?text=Satin+Fabric') no-repeat center/cover; }
+        .open-card { width: 800px; height: 250px; display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .page { width: 50%; padding: 20px; background: #f5f5f0; border: 1px solid #d4af37; position: relative; }
+        .page::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://via.placeholder.com/400x250?text=Pearl+Texture') no-repeat center/cover; opacity: 0.2; }
+        .left-page { text-align: center; }
+        .left-page .monogram { font-family: 'Playfair Display', serif; font-size: 5rem; color: #d4af37; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .right-page { font-family: 'Lora', serif; color: #d4af37; line-height: 1.6; text-shadow: 0 0 5px rgba(212,175,55,0.5); animation: shimmer 3s infinite; }
+        @keyframes shimmer { 0%, 100% { text-shadow: 0 0 5px rgba(212,175,55,0.5); } 50% { text-shadow: 0 0 15px rgba(212,175,55,1); } }
+        .petals { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+        .petal { position: absolute; width: 10px; height: 10px; background: #f8e8e8; border-radius: 50%; animation: drift 10s infinite linear; }
+        @keyframes drift { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-100px) rotate(360deg); } }
+
+        /* Buttons */
+        #replay-btn { position: absolute; bottom: 20px; left: 20px; background: #d4af37; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        #rsvp-btn { position: absolute; bottom: 20px; right: 20px; background: #d4af37; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+
+        /* RSVP Modal */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 10; }
+        .modal.show { opacity: 1; pointer-events: auto; }
+        .modal-content { background: #f5f5f0; border: 2px solid #d4af37; border-radius: 10px; padding: 20px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal-content h3 { font-family: 'Playfair Display', serif; color: #d4af37; margin-bottom: 20px; }
+        .modal-content form { display: flex; flex-direction: column; }
+        .modal-content input, .modal-content select, .modal-content textarea { margin-bottom: 10px; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; font-family: 'Lora', serif; }
+        .modal-content button { background: #d4af37; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .modal-content button:hover { box-shadow: 0 0 10px rgba(212,175,55,0.8); }
+        #close-modal { background: #333; }
+
+        /* Responsive */
+        @media (max-width: 768px) { .card { width: 300px; height: 200px; } .open-card { width: 100%; flex-direction: column; height: auto; } .page { width: 100%; } .modal-content { width: 95%; } }
+    </style>
+</head>
+<body>
+    <!-- Audio Elements -->
+    <audio id="chime" src="chime.mp3"></audio>
+    <audio id="rustle" src="rustle.mp3"></audio>
+    <audio id="music" src="music.mp3" loop></audio>
+
+    <!-- Welcome Screen -->
+    <div id="welcome" class="screen">
+        <div class="shimmer">
+            <!-- Generate particles dynamically -->
+        </div>
+        <div class="content">
+            <h1>Welcome to a Special Celebration of Love.</h1>
+            <p>Please enter your name to receive your personalized invitation.</p>
+            <input type="text" id="name-input" placeholder="Your Name">
+            <button id="continue-btn">Continue</button>
+        </div>
+    </div>
+
+    <!-- Closed Card Screen -->
+    <div id="closed-card" class="screen hidden">
+        <div class="card-container">
+            <div class="card" id="card">
+                <div class="card-front">
+                    <div class="border"></div>
+                    <h2>25th Wedding Anniversary</h2>
+                    <p id="guest-name">For [Name]</p>
+                </div>
+            </div>
+        </div>
+        <button id="open-btn">Open Card</button>
+    </div>
+
+    <!-- Opened Card Screen -->
+    <div id="opened-card" class="screen hidden">
+        <div class="open-card">
+            <div class="page left-page">
+                <div class="monogram">25</div>
+            </div>
+            <div class="page right-page">
+                <p>You are warmly invited<br>to celebrate<br>the 25th Wedding Anniversary<br>of<br>Rajesh & Meera</p>
+                <p>Saturday, 16th November 2025 | 7:00 PM<br>The Royal Orchid Banquet, Mumbai</p>
+                <p>Join us for an evening of memories, laughter, and love.</p>
+            </div>
+        </div>
+        <div class="petals">
+            <!-- Generate petals dynamically -->
+        </div>
+        <button id="replay-btn">Replay Opening</button>
+        <button id="rsvp-btn">RSVP Now</button>
+    </div>
+
+    <!-- RSVP Modal -->
+    <div id="rsvp-modal" class="modal">
+        <div class="modal-content">
+            <h3>RSVP for the Celebration</h3>
+            <form id="rsvp-form">
+                <input type="text" id="rsvp-name" placeholder="Your Full Name" required>
+                <input type="email" id="rsvp-email" placeholder="Your Email" required>
+                <select id="rsvp-attendance" required>
+                    <option value="">Will you attend?</option>
+                    <option value="yes">Yes, joyfully!</option>
+                    <option value="no">No, with regrets</option>
+                </select>
+                <textarea id="rsvp-message" placeholder="Optional Message" rows="3"></textarea>
+                <button type="submit">Submit RSVP</button>
+                <button type="button" id="close-modal">Close</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+    // Get URL param for name
+    const urlParams = new URLSearchParams(window.location.search);
+    const guestName = urlParams.get('name') || 'Guest';
+
+    // Screens and Elements
+    const welcome = document.getElementById('welcome');
+    const closedCard = document.getElementById('closed-card');
+    const openedCard = document.getElementById('opened-card');
+    const modal = document.getElementById('rsvp-modal');
+    const form = document.getElementById('rsvp-form');
+    const nameInput = document.getElementById('name-input');
+    const continueBtn = document.getElementById('continue-btn');
+    const openBtn = document.getElementById('open-btn');
+    const replayBtn = document.getElementById('replay-btn');
+    const rsvpBtn = document.getElementById('rsvp-btn');
+    const closeModalBtn = document.getElementById('close-modal');
+    const card = document.getElementById('card');
+    const guestNameEl = document.getElementById('guest-name');
+    const chime = document.getElementById('chime');
+    const rustle = document.getElementById('rustle');
+    const music = document.getElementById('music');
+
+    // Generate shimmer particles
+    const shimmer = document.querySelector('.shimmer');
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 10 + 's';
+        shimmer.appendChild(particle);
+    }
+
+    // Generate petals
+    const petals = document.querySelector('.petals');
+    for (let i = 0; i < 20; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.animationDelay = Math.random() * 10 + 's';
+        petals.appendChild(petal);
+    }
+
+    // Continue to closed card
+    continueBtn.addEventListener('click', () => {
+        const name = nameInput.value || guestName;
+        guestNameEl.textContent = `For ${name}`;
+        chime.play();
+        gsap.to(welcome, { opacity: 0, duration: 1, onComplete: () => {
+            welcome.classList.add('hidden');
+            closedCard.classList.remove('hidden');
+            gsap.fromTo(closedCard, { opacity: 0 }, { opacity: 1, duration: 1 });
+            music.play();
+        }});
+    });
+
+    // Open card animation
+    openBtn.addEventListener('click', () => {
+        rustle.play();
+        gsap.to(card, { rotationY: 180, duration: 2, ease: 'power2.inOut', onComplete: () => {
+            closedCard.classList.add('hidden');
+            openedCard.classList.remove('hidden');
+            gsap.fromTo(openedCard, { opacity: 0 }, { opacity: 1, duration: 1 });
+        }});
+    });
+
+    // Replay
+    replayBtn.addEventListener('click', () => {
+        openedCard.classList.add('hidden');
+        closedCard.classList.remove('hidden');
+        gsap.set(card, { rotationY: 0 });
+        gsap.fromTo(closedCard, { opacity: 0 }, { opacity: 1, duration: 1 });
+    });
+
+    // Open RSVP Modal
+    rsvpBtn.addEventListener('click', () => {
+        modal.classList.add('show');
+        gsap.fromTo(modal, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 });
+    });
+
+    // Close Modal
+    closeModalBtn.addEventListener('click', () => {
+        gsap.to(modal, { scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => modal.classList.remove('show') });
+    });
+
+    // Handle RSVP Form Submission with Formspree
+    
+       form.addEventListener('submit', async (e) => {
+       e.preventDefault();
+       const formData = new FormData(form);
+       const endpoint = 'https://formspree.io/f/mrbobvkp'; // Replace with your exact URL
+       console.log('Endpoint:', endpoint);
+       console.log('Form data:', Object.fromEntries(formData));
+       try {
+           const response = await fetch(endpoint, {
+               method: 'POST',
+               body: formData,
+               headers: { 'Accept': 'application/json' }
+           });
+           console.log('Response status:', response.status);
+           const result = await response.text();
+           console.log('Response body:', result);
+           if (response.ok) {
+               alert('Thank you for your RSVP! We look forward to celebrating with you.');
+               form.reset();
+               gsap.to(modal, { scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => modal.classList.remove('show') });
+           } else {
+               alert('Submission failed. Status: ' + response.status + '. Check console for details.');
+           }
+       } catch (error) {
+           console.error('Error:', error);
+           alert('Network error: ' + error.message);
+       }
+   });
+   
+</script>
+</body>
+</html>
